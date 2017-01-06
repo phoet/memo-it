@@ -1,0 +1,25 @@
+#!/usr/bin/env ruby
+
+require 'fileutils'
+require 'net/http'
+
+if File.read('Gemfile').match(/rails/)
+  path = 'app/lib'
+else
+  path = 'lib'
+end
+
+puts "will copy memo-it to your source,"
+puts "per default it will be copied to #{path}"
+puts "if you want a different location,"
+puts "just enter it now, otherwise just hit RETURN"
+print "$ "
+input = gets.chomp
+
+path = input unless input.empty?
+
+FileUtils.mkdir_p(path)
+response = Net::HTTP.get(URI("https://raw.githubusercontent.com/phoet/memo-it/master/lib/memo/it.rb"))
+File.write(File.join(path, 'memo-it.rb'), response)
+
+puts "<3 happy memoization!"
