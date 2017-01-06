@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["phoetmail@googlemail.com"]
 
   spec.summary       = %q{📥 📤 simple yet clever memoization helper with parameter support}
-  spec.description   = File.read('README.md')
+  spec.description   = spec.summary
   spec.homepage      = "https://github.com/phoet/memo-it"
   spec.license       = "MIT"
 
