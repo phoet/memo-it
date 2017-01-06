@@ -1,6 +1,6 @@
 # Memo::It
 
-Clever memoization helper that uses Ruby internals instead of meta-programming.
+Clever memoization helper that uses Ruby internals instead of meta-programming. [![Build Status](https://travis-ci.org/phoet/memo-it.svg?branch=master)](https://travis-ci.org/phoet/memo-it)
 
 ## Usage
 
