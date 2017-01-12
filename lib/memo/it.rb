@@ -1,5 +1,5 @@
 module Memo
-  VERSION = '0.1.2'
+  VERSION = '0.2.0'
   module It
     def memo(ignore: [], &block)
       keys = block.source_location
