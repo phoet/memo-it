@@ -27,6 +27,29 @@ In case you want to memoize something that has parameters, memo-it will just use
   end
 ```
 
+If, on the other hand, you want to memoize parameters but ignore one of them,
+you can do this by adding it to the `:ignore` list:
+
+```ruby
+  def load_repo(name =  'memo-it', time = Time.now)
+    memo(ignore: :time) do
+      # in this case the result will be memoized per name
+      HTTPClient.get("https://github.com/phoet/#{name}?time=#{time}")
+    end
+  end
+```
+
+Or provide a list of parameters to ignore:
+
+```ruby
+  def load_repo(name =  'memo-it', time = Time.now, other = 'irrelevant')
+    memo(ignore: [:time, :other]) do
+      # in this case the result will be memoized per name
+      HTTPClient.get("https://github.com/phoet/#{name}?time=#{time}&other=#{other}")
+    end
+  end
+```
+
 ## Installation
 
 ### As a Gem
