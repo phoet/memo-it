@@ -1,9 +1,13 @@
 module Memo
   VERSION = '0.1.2'
   module It
-    def memo(&block)
+    def memo(ignore: [], &block)
       keys = block.source_location
-      keys << block.binding.local_variables.map { |name| [name, block.binding.local_variable_get(name)] }
+      ignore = Array(ignore)
+      keys << block.binding.local_variables.map do |name|
+        next if ignore.include?(name)
+        [name, block.binding.local_variable_get(name)]
+      end
       keys = keys.flatten.map(&:to_s)
 
       @_memo_it ||= {}
