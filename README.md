@@ -50,6 +50,17 @@ Or provide a list of parameters to ignore:
   end
 ```
 
+To be symmetric, it's also possible to define one or more parameters through the `:only` key:
+
+```ruby
+  def load_repo(name =  'memo-it', time = Time.now, format = 'json')
+    memo(only: [:name, :format]) do
+      # in this case the result will be memoized per name & format
+      HTTPClient.get("https://github.com/phoet/#{name}?time=#{time}&format=#{format}")
+    end
+  end
+```
+
 ## Installation
 
 ### As a Gem
