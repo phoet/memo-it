@@ -50,6 +50,21 @@ Or provide a list of parameters to ignore:
   end
 ```
 
+In case you would like to disable memoization (ie testing) you can disable Memo::It:
+
+```ruby
+  # enabled is default
+  Memo.enabled? # => true
+
+  # disable memoization globally
+  Memo.disable
+  Memo.enabled? # => false
+
+  # re-enable memoization
+  Memo.enable
+  Memo.enabled? # => true
+```
+
 ## Installation
 
 ### As a Gem
