@@ -6,6 +6,23 @@ module Memo
       @mock = MiniTest::Mock.new
     end
 
+    def test_disabling
+      assert Memo.enabled?
+      Memo.disable
+      refute Memo.enabled?
+    ensure
+      Memo.enable
+    end
+
+    def test_no_memoization_when_disabled
+      Memo.disable
+      10.times { @mock.expect(:slow, :stuff) }
+      10.times { assert memo_without_parameters == :stuff }
+      @mock.verify
+    ensure
+      Memo.enable
+    end
+
     def test_memoizes_stuff
       @mock.expect(:slow, :stuff)
       10.times { assert memo_without_parameters == :stuff }

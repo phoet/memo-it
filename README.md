@@ -61,6 +61,21 @@ To be symmetric, it's also possible to define one or more parameters through the
   end
 ```
 
+In case you would like to disable memoization (ie testing) you can disable Memo::It:
+
+```ruby
+  # enabled is default
+  Memo.enabled? # => true
+
+  # disable memoization globally
+  Memo.disable
+  Memo.enabled? # => false
+
+  # re-enable memoization
+  Memo.enable
+  Memo.enabled? # => true
+```
+
 ## Installation
 
 ### As a Gem

@@ -1,5 +1,20 @@
 module Memo
   VERSION = '0.2.0'
+
+  @enabled = true
+
+  def self.enabled?
+    @enabled
+  end
+
+  def self.enable
+    @enabled = true
+  end
+
+  def self.disable
+    @enabled = false
+  end
+
   module It
     def memo(only: [], ignore: [], &block)
       only = Array(only)
@@ -16,7 +31,7 @@ module Memo
       keys = keys.flatten.map(&:to_s)
 
       @_memo_it ||= {}
-      return @_memo_it[keys] if @_memo_it.key? keys
+      return @_memo_it[keys] if Memo.enabled? && @_memo_it.key?(keys)
       @_memo_it[keys] = yield
     end
   end
