@@ -50,6 +50,17 @@ Or provide a list of parameters to ignore:
   end
 ```
 
+To be symmetric, it's also possible to define one or more parameters through the `:only` key:
+
+```ruby
+  def load_repo(name =  'memo-it', time = Time.now, format = 'json')
+    memo(only: [:name, :format]) do
+      # in this case the result will be memoized per name & format
+      HTTPClient.get("https://github.com/phoet/#{name}?time=#{time}&format=#{format}")
+    end
+  end
+```
+
 In case you would like to disable memoization (ie testing) you can disable Memo::It:
 
 ```ruby
@@ -93,11 +104,11 @@ If you don't want to include yet another Gem, just run this in your shell:
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake test` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/memo-it. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/phoet/memo-it. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 
 ## License

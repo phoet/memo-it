@@ -16,13 +16,18 @@ module Memo
   end
 
   module It
-    def memo(ignore: [], &block)
-      keys = block.source_location
-      ignore = Array(ignore)
-      keys << block.binding.local_variables.map do |name|
-        next if ignore.include?(name)
-        [name, block.binding.local_variable_get(name)]
+    def memo(only: [], ignore: [], &block)
+      only = Array(only)
+      if only.empty?
+        ignore = Array(ignore)
+        key_names = block.binding.local_variables
+        key_names -= ignore unless ignore.empty?
+      else
+        key_names = only
       end
+
+      keys = block.source_location
+      keys << key_names.map { |name| [name, block.binding.local_variable_get(name)] }
       keys = keys.flatten.map(&:to_s)
 
       @_memo_it ||= {}
