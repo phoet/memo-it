@@ -16,12 +16,12 @@ module Memo
   end
 
   module It
-    def memo(only: [], ignore: [], &block)
+    def memo(only: [], except: [], &block)
       only = Array(only)
       if only.empty?
-        ignore = Array(ignore)
+        except = Array(except)
         key_names = block.binding.local_variables
-        key_names -= ignore unless ignore.empty?
+        key_names -= except unless except.empty?
       else
         key_names = only
       end
