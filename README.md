@@ -19,7 +19,7 @@ Requiring the gem will add a `memo` method to the `Object` class so that you can
 In case you want to memoize something that has parameters, memo-it will just use all local variables in scope to determine the memoization:
 
 ```ruby
-  def load_repo(name =  'memo-it')
+  def load_repo(name = 'memo-it')
     memo do
       # in this case the result will be memoized per name
       HTTPClient.get("https://github.com/phoet/#{name}")
@@ -31,7 +31,7 @@ If, on the other hand, you want to memoize parameters but ignore one of them,
 you can do this by adding it to the `:except` list:
 
 ```ruby
-  def load_repo(name =  'memo-it', time = Time.now)
+  def load_repo(name = 'memo-it', time = Time.now)
     memo(except: :time) do
       # in this case the result will be memoized per name
       HTTPClient.get("https://github.com/phoet/#{name}?time=#{time}")
@@ -42,7 +42,7 @@ you can do this by adding it to the `:except` list:
 Or provide a list of parameters to except:
 
 ```ruby
-  def load_repo(name =  'memo-it', time = Time.now, other = 'irrelevant')
+  def load_repo(name = 'memo-it', time = Time.now, other = 'irrelevant')
     memo(except: [:time, :other]) do
       # in this case the result will be memoized per name
       HTTPClient.get("https://github.com/phoet/#{name}?time=#{time}&other=#{other}")
@@ -53,7 +53,7 @@ Or provide a list of parameters to except:
 To be symmetric, it's also possible to define one or more parameters through the `:only` key:
 
 ```ruby
-  def load_repo(name =  'memo-it', time = Time.now, format = 'json')
+  def load_repo(name = 'memo-it', time = Time.now, format = 'json')
     memo(only: [:name, :format]) do
       # in this case the result will be memoized per name & format
       HTTPClient.get("https://github.com/phoet/#{name}?time=#{time}&format=#{format}")
