@@ -36,33 +36,61 @@ module Memo
       @mock.verify
     end
 
-    def test_memoizes_without_single_ignored_variable
+    def test_memoizes_with_single_only_variable
       @mock.expect(:slow, :stuff12, [1, 2])
-      10.times { assert memo_with_single_ignored_parameter(1,2) == :stuff12 }
+      10.times { assert memo_with_single_only_parameter(1, 2) == :stuff12 }
 
       # does not call the block if ignored parameter is changed
-      10.times { assert memo_with_single_ignored_parameter(3,2) == :stuff12 }
+      10.times { assert memo_with_single_only_parameter(2, 2) == :stuff12 }
+
+      # but calls the block if not-ignored parameters is changed
+      @mock.expect(:slow, :stuff13, [1, 3])
+      10.times { assert memo_with_single_only_parameter(1, 3) == :stuff13 }
+
+      @mock.verify
+    end
+
+    def test_memoizes_with_multiple_only_variables
+      @mock.expect(:slow, :stuff123, [1, 2, 3])
+      10.times { assert memo_with_multiple_only_parameters(1, 2, 3) == :stuff123 }
+
+      # does not call the block if first ignored parameter is changed
+      10.times { assert memo_with_multiple_only_parameters(4, 2, 3) == :stuff123 }
+
+      # but calls the block if not-ignored parameters is changed
+      @mock.expect(:slow, :stuff143, [1, 4, 3])
+      10.times { assert memo_with_multiple_only_parameters(1, 4, 3) == :stuff143 }
+
+      @mock.verify
+    end
+
+    def test_memoizes_without_single_ignored_variable
+      @mock.expect(:slow, :stuff12, [1, 2])
+      10.times { assert memo_with_single_ignored_parameter(1, 2) == :stuff12 }
+
+      # does not call the block if ignored parameter is changed
+      10.times { assert memo_with_single_ignored_parameter(3, 2) == :stuff12 }
 
       # but calls the block if not-ignored parameters is changed
       @mock.expect(:slow, :stuff14, [1, 4])
-      10.times { assert memo_with_single_ignored_parameter(1,4) == :stuff14 }
+      10.times { assert memo_with_single_ignored_parameter(1, 4) == :stuff14 }
 
       @mock.verify
     end
 
     def test_memoizes_without_multiple_ignored_variables
       @mock.expect(:slow, :stuff123, [1, 2, 3])
-      10.times { assert memo_with_multiple_ignored_parameters(1,2,3) == :stuff123 }
+      10.times { assert memo_with_multiple_ignored_parameters(1, 2, 3) == :stuff123 }
 
       # does not call the block if first ignored parameter is changed
-      10.times { assert memo_with_multiple_ignored_parameters(4,2,3) == :stuff123 }
+      10.times { assert memo_with_multiple_ignored_parameters(4, 2, 3) == :stuff123 }
 
       # does not call the block if second ignored parameter is changed
-      10.times { assert memo_with_multiple_ignored_parameters(1,2,4) == :stuff123 }
+      10.times { assert memo_with_multiple_ignored_parameters(1, 2, 4) == :stuff123 }
 
       # but calls the block if not-ignored parameters is changed
       @mock.expect(:slow, :stuff143, [1, 4, 3])
-      10.times { assert memo_with_multiple_ignored_parameters(1,4, 3) == :stuff143 }
+      10.times { assert memo_with_multiple_ignored_parameters(1, 4, 3) == :stuff143 }
 
       @mock.verify
     end
@@ -78,6 +106,18 @@ module Memo
     def memo_with_parameters(some = 1, parameters = 2)
       memo do
         @mock.slow(some, parameters)
+      end
+    end
+
+    def memo_with_single_only_parameter(some = 1, parameters = 2)
+      memo(only: :parameters) do
+        @mock.slow(some, parameters)
+      end
+    end
+
+    def memo_with_multiple_only_parameters(some = 1, more = 2, parameters = 3)
+      memo(only: [:more, :parameters]) do
+        @mock.slow(some, more, parameters)
       end
     end
 
