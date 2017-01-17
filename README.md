@@ -102,9 +102,7 @@ If you don't want to include yet another Gem, just run this in your shell:
 
 ## Changelog
 
-### 0.3.0
-
-*  renamed `:ignore` to `:except`
+See [CHANGELOG.md](https://github.com/phoet/memo-it/blob/master/CHANGELOG.md).
 
 ## Development
 
