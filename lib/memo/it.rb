@@ -27,8 +27,7 @@ module Memo
       end
 
       keys = block.source_location
-      keys << key_names.map { |name| [name, block.binding.local_variable_get(name)] }
-      keys = keys.flatten.map(&:to_s)
+      keys << key_names.flat_map { |name| [name, block.binding.local_variable_get(name)] }
 
       @_memo_it ||= {}
       return @_memo_it[keys] if Memo.enabled? && @_memo_it.key?(keys)
