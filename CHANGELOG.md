@@ -1,8 +1,8 @@
 # CHANGELOG
 
-## unreleased
+## 0.3.1
 
- * _no changes yet_
+ * simplify key generation (see [issue #7](https://github.com/phoet/memo-it/pull/7) for details)
 
 ## 0.3.0 ([list of commits](https://github.com/phoet/memo-it/compare/v0.2.0...v0.3.0))
 
