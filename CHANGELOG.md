@@ -1,6 +1,10 @@
 # CHANGELOG
 
-## 0.3.1
+## 0.3.2 ([list of commits](https://github.com/phoet/memo-it/compare/v0.3.1...v0.3.2))
+
+ * cache on the class level (see [issue #7](https://github.com/phoet/memo-it/pull/9) for details)
+
+## 0.3.1 ([list of commits](https://github.com/phoet/memo-it/compare/v0.3.0...v0.3.1))
 
  * simplify key generation (see [issue #7](https://github.com/phoet/memo-it/pull/7) for details)
 
