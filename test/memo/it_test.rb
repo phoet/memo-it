@@ -29,6 +29,18 @@ module Memo
       @mock.verify
     end
 
+    def test_memoizes_stuff_on_class_level
+      @mock.expect(:slow, :stuff)
+      10.times { assert Memoizer.new(@mock).memo_without_parameters_on_class_level == :stuff }
+      @mock.verify
+    end
+
+    def test_memoizes_stuff_on_instance_level
+      10.times { @mock.expect(:slow, :stuff) }
+      10.times { assert Memoizer.new(@mock).memo_without_parameters_on_instance_level == :stuff }
+      @mock.verify
+    end
+
     def test_memoizes_nil
       @mock.expect(:slow, nil)
       10.times { assert memo_without_parameters.nil? }
@@ -147,6 +159,24 @@ module Memo
     def memo_with_multiple_except_parameters(some = 1, more = 2, parameters = 3)
       memo(except: [:some, :parameters]) do
         @mock.slow(some, more, parameters)
+      end
+    end
+
+    class Memoizer
+      def initialize(mock)
+        @mock = mock
+      end
+
+      def memo_without_parameters_on_class_level
+        Memo::It.memo do
+          @mock.slow
+        end
+      end
+
+      def memo_without_parameters_on_instance_level
+        memo do
+          @mock.slow
+        end
       end
     end
   end
