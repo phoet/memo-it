@@ -3,3 +3,4 @@ require 'memo/it'
 require 'byebug'
 
 require 'minitest/autorun'
+require 'mocha/mini_test'
