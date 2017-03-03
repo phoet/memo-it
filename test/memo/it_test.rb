@@ -6,10 +6,6 @@ module Memo
       @mock = MiniTest::Mock.new
     end
 
-    def teardown
-      Memo.clear
-    end
-
     def test_disabling
       assert Memo.enabled?
       Memo.disable

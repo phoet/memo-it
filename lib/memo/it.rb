@@ -15,14 +15,6 @@ module Memo
     @enabled = false
   end
 
-  def self.cache
-    @cache ||= {}
-  end
-
-  def self.clear
-    cache.clear
-  end
-
   module It
     def memo(only: [], except: [], &block)
       only = Array(only)
@@ -37,8 +29,9 @@ module Memo
       keys = block.source_location
       keys << key_names.flat_map { |name| [name, block.binding.local_variable_get(name)] }
 
-      return Memo.cache[keys] if Memo.enabled? && Memo.cache.key?(keys)
-      Memo.cache[keys] = yield
+      @_memo_it ||= {}
+      return @_memo_it[keys] if Memo.enabled? && @_memo_it.key?(keys)
+      @_memo_it[keys] = yield
     end
   end
 end
