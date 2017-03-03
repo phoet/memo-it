@@ -33,6 +33,18 @@ module Memo
       @mock.verify
     end
 
+    def test_memoizes_per_object
+      cat1 = MemoCat.new
+      cat1.expects(:calculate).returns('result1')
+      cat2 = MemoCat.new
+      cat2.expects(:calculate).returns('result2')
+
+      10.times do
+        assert_equal 'result1', cat1.result
+        assert_equal 'result2', cat2.result
+      end
+    end
+
     def test_memoizes_nil
       @mock.expect(:slow, nil)
       10.times { assert memo_without_parameters.nil? }

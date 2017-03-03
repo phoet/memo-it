@@ -35,6 +35,7 @@ module Memo
       end
 
       keys = block.source_location
+      keys << object_id
       keys << key_names.flat_map { |name| [name, block.binding.local_variable_get(name)] }
 
       return Memo.cache[keys] if Memo.enabled? && Memo.cache.key?(keys)
