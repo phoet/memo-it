@@ -2,7 +2,9 @@
 
 Clever memoization helper that uses Ruby internals instead of meta-programming. [![Build Status](https://travis-ci.org/phoet/memo-it.svg?branch=master)](https://travis-ci.org/phoet/memo-it)
 
-## Usage
+## Using Memo::It
+
+### Basic Usage
 
 Requiring the gem will add a `memo` method to the `Object` class so that you can just use it like so:
 
@@ -16,7 +18,47 @@ Requiring the gem will add a `memo` method to the `Object` class so that you can
   end
 ```
 
-In case you want to memoize something that has parameters, memo-it will just use all local variables in scope to determine the memoization:
+### Instance vs Class memoization
+
+Per default, the memoization will be done on an instance level,
+so every instance of an object will have it's own memoization namespace:
+
+```ruby
+  class Loader
+    def initialize(url)
+      @url = url
+    end
+
+    def content
+      memo do
+        # fetch the url content from the web
+      end
+    end
+  end
+
+  issues_loader = Loader.new('https://github.com/phoet/memo-it/issues')
+  pulls_loader  = Loader.new('https://github.com/phoet/memo-it/pulls')
+
+  issues_loader.content # load & memoize the issues
+  pulls_loader.content # load & memoize the pulls
+```
+
+But you can also memoize on a global/class scope.
+This is needed if you want to use Memo::It in dynamically instanciated objects like Rails helpers:
+
+```ruby
+  module WebHelper
+    def content(url)
+      Memo::It.memo do
+        # fetch the url content from the web
+      end
+    end
+  end
+```
+
+### Parameters as scopes
+
+In case you want to memoize something that has parameters, Memo::It will just use all local variables in scope to determine the memoization:
 
 ```ruby
   def load_repo(name = 'memo-it')
@@ -61,7 +103,9 @@ To be symmetric, it's also possible to define one or more parameters through the
   end
 ```
 
-In case you would like to disable memoization (ie testing) you can disable Memo::It:
+### Turning it on and off
+
+In case you would like to disable memoization (ie. for testing) you can disable Memo::It:
 
 ```ruby
   # enabled is default
