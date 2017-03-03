@@ -11,3 +11,6 @@
 # personal version manager settings
 .ruby-version
 .ruby-gemset
+
+# debugging files
+.byebug_history
