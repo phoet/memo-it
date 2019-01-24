@@ -1,0 +1,16 @@
+version: '3'
+services:
+  memo-it-client: &default
+    container_name: memo-it-client
+    build: .
+    working_dir: /app/source
+    tty: true
+    volumes:
+      - .:/app/source
+      - ruby-2.6.0-bundle:/usr/local/bundle
+    environment:
+      BUNDLE_GEMFILE: /app/source/Gemfile
+
+volumes:
+  ruby-2.6.0-bundle:
+    external: true

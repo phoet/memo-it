@@ -1,0 +1,22 @@
+#!/bin/bash
+set -euxo pipefail
+
+SERVICE=memo-it-client
+
+volumes=(ruby-2.6.0-bundle)
+
+for v in ${volumes[@]}; do
+  echo ${v}
+  if ! docker volume ls -q | grep -e ^${v}$ >/dev/null
+  then
+    docker volume create --name ${v}
+  fi
+done
+
+docker-compose up --no-recreate -d ${SERVICE}
+
+COMMAND=${@:-bash}
+echo Run \'$COMMAND\' in container context
+
+docker exec -ti ${SERVICE} ${COMMAND}
+
