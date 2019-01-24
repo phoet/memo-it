@@ -17,6 +17,8 @@ module Memo
 
   module It
     def memo(only: [], except: [], &block)
+      return yield unless Memo.enabled? 
+
       only = Array(only)
       if only.empty?
         except = Array(except)
@@ -30,7 +32,7 @@ module Memo
       keys << key_names.flat_map { |name| [name, block.binding.local_variable_get(name)] }
 
       @_memo_it ||= {}
-      return @_memo_it[keys] if Memo.enabled? && @_memo_it.key?(keys)
+      return @_memo_it[keys] if @_memo_it.key?(keys)
       @_memo_it[keys] = yield
     end
   end
