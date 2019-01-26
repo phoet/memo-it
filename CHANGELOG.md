@@ -1,16 +1,20 @@
 # CHANGELOG
 
+## 0.5.0 ([list of commits](https://github.com/phoet/memo-it/compare/v0.4.0...v0.5.0))
+
+ * separate instance and class level caching (see [PR](https://github.com/phoet/memo-it/pull/15) for details) <3 @serioushaircut
+
 ## 0.4.0 ([list of commits](https://github.com/phoet/memo-it/compare/v0.3.2...v0.4.0))
 
- * separate instance and class level caching (see [issue #7](https://github.com/phoet/memo-it/pull/11) for details)
+ * separate instance and class level caching (see [PR](https://github.com/phoet/memo-it/pull/11) for details) <3 @alto
 
 ## 0.3.2 ([list of commits](https://github.com/phoet/memo-it/compare/v0.3.1...v0.3.2))
 
- * cache on the class level (see [issue #7](https://github.com/phoet/memo-it/pull/9) for details)
+ * cache on the class level (see [PR](https://github.com/phoet/memo-it/pull/9) for details)
 
 ## 0.3.1 ([list of commits](https://github.com/phoet/memo-it/compare/v0.3.0...v0.3.1))
 
- * simplify key generation (see [issue #7](https://github.com/phoet/memo-it/pull/7) for details)
+ * simplify key generation (see [PR](https://github.com/phoet/memo-it/pull/7) for details)
 
 ## 0.3.0 ([list of commits](https://github.com/phoet/memo-it/compare/v0.2.0...v0.3.0))
 

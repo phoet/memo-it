@@ -103,6 +103,17 @@ To be symmetric, it's also possible to define one or more parameters through the
   end
 ```
 
+Provide your own memoization keys through the `:provided` key:
+
+```ruby
+  def load_repo(name = 'memo-it')
+    memo(provided: Date.today.day_of_week) do
+      # in this case the result will be memoized per name and day_of_week
+      HTTPClient.get("https://github.com/phoet/#{name}")
+    end
+  end
+```
+
 ### Turning it on and off
 
 In case you would like to disable memoization (ie. for testing) you can disable Memo::It:
@@ -119,6 +130,19 @@ In case you would like to disable memoization (ie. for testing) you can disable 
   Memo.enable
   Memo.enabled? # => true
 ```
+
+## Caveats
+
+### Multiple calls to memo on the same line of code
+
+If you want to call `memo` twice within the same line of code, you would need provide a custom key through the `:provided` argument.
+This is not recommended through. A better alternative would be to put both calls into their own sub-methods and call those instead.
+
+### Runtime-Speed
+
+Compared to other memoization frameworks, the `memo` method requires more computation and is slower by size of a magnitude: https://github.com/phoet/memo-it/issues/6
+Do not use this library to optimize hot code-paths! Use it to cache really slow things such as network-requests or generation of large strings like JSON objects etc.
+Whatever you do, benchmark your code in order to see if the memoization strategy you use is a good fit for your use-case.
 
 ## Installation
 
