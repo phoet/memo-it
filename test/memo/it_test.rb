@@ -124,6 +124,28 @@ module Memo
       @mock.verify
     end
 
+    class MyMemoTest
+      attr_accessor :what
+
+      def one_line
+        memo { @what } ? memo { :foo } : memo { :bar }
+      end
+    end
+
+    def test_memo_thrice_in_row_left
+      dut = MyMemoTest.new
+      dut.what = true
+      assert_equal(:foo, dut.one_line)
+      assert_equal(2, dut.instance_variable_get(:@_memo_it).size, "Two memos should have two entries")
+    end
+
+    def test_memo_thrice_in_row_right
+      dut = MyMemoTest.new
+      dut.what = false
+      assert_equal(:bar, dut.one_line)
+      assert_equal(2, dut.instance_variable_get(:@_memo_it).size, "Two memos should have two entries")
+    end
+
     private
 
     def memo_without_parameters
