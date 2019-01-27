@@ -16,8 +16,8 @@ module Memo
   end
 
   module It
-    def memo(only: [], except: [], &block)
-      return yield unless Memo.enabled? 
+    def memo(only: [], except: [], provided: [], &block)
+      return yield unless Memo.enabled?
 
       only = Array(only)
       if only.empty?
@@ -30,6 +30,7 @@ module Memo
 
       keys = block.source_location
       keys << key_names.flat_map { |name| [name, block.binding.local_variable_get(name)] }
+      keys << Array(provided)
 
       @_memo_it ||= {}
       return @_memo_it[keys] if @_memo_it.key?(keys)

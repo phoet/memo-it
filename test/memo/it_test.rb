@@ -124,6 +124,36 @@ module Memo
       @mock.verify
     end
 
+    class MyMemoTest
+      attr_accessor :what
+
+      def provided
+        memo(provided: @what) { @what }
+      end
+
+      def same_line
+        [
+          memo { :x },
+          memo { :y },
+          memo { :x }, memo { :y },
+          memo(provided: :x) { :x }, memo(provided: :y) { :y },
+        ]
+      end
+    end
+
+    def test_memo_with_provided_argument
+      dut = MyMemoTest.new
+      dut.what = :foo
+      assert_equal(:foo, dut.provided)
+      dut.what = :bar
+      assert_equal(:bar, dut.provided)
+    end
+
+    def test_memo_thrice_in_row_right
+      dut = MyMemoTest.new
+      assert_equal([:x, :y, :x, :x, :x, :y], dut.same_line)
+    end
+
     private
 
     def memo_without_parameters
